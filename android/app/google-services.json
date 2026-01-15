@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "760056943614",
+    "project_id": "iesmiraventdeint2526",
+    "storage_bucket": "iesmiraventdeint2526.firebaseapp.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:760056943614:android:7dddc1ec2ec6e95ae9a6af",
+        "android_client_info": {
+          "package_name": "com.example.untitled"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLJFHaL9XwUv6BxemHmAg9sLXl6mZ0KUE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:760056943614:android:66158d9617fe52b8e9a6af",
+        "android_client_info": {
+          "package_name": "com.iesmiravent.firebase_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLJFHaL9XwUv6BxemHmAg9sLXl6mZ0KUE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
