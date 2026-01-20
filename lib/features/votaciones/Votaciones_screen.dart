@@ -10,13 +10,21 @@ class VotacionesScreen extends StatefulWidget {
 }
 
 class _VotacionesScreenState extends State<VotacionesScreen> {
+
+  // Incrementar el voto en Firestore
+  void _updateVoto(String docId, String campo) {
+    FirebaseFirestore.instance.collection("encuestas").doc(docId).update({
+      campo: FieldValue.increment(1),
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Votaciones"),
+        title: const Text("Votaciones"),
         centerTitle: true,
-        backgroundColor: Color(0x0FFF0F0F0),
+        backgroundColor: const Color(0xFFF0F0F0),
       ),
       body: Column(
         children: [
@@ -27,7 +35,7 @@ class _VotacionesScreenState extends State<VotacionesScreen> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  return const Center(child: Text("Error"));
+                  return const Center(child: Text("Error al cargar datos"));
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -37,20 +45,36 @@ class _VotacionesScreenState extends State<VotacionesScreen> {
                 final docs = snapshot.data!.docs;
 
                 if (docs.isEmpty) {
-                  return const Center(child: Text("No hay mensajes"));
+                  return const Center(child: Text("No hay encuestas disponibles"));
                 }
-                final data = docs[0].data() as Map<String, dynamic>;
-                final List<MapEntry<String, dynamic>> lista = data.entries.toList();
+                final doc = docs[0];
+                final dataMap = doc.data() as Map<String, dynamic>;
+                final List<MapEntry<String, dynamic>> lista = dataMap.entries.toList();
 
-                var totalvotos = lista.map((e) => e.value).reduce((a, b) => a + b);
-                List<Color>Colores = [Colors.red, Colors.blue, Colors.green, Colors.yellow, Colors.orange, Colors.purple, Colors.pink, Colors.brown, Colors.grey, Colors.black];
+                // Ordenar la lista
+                lista.sort((a, b) => b.value.compareTo(a.value));
+
+                final totalVotos = lista.fold<int>(0, (sum, item) => sum + (item.value as int));
+
+                final List<Color> colores = [
+                  Colors.red, Colors.blue, Colors.green, Colors.yellow,
+                  Colors.orange, Colors.purple, Colors.pink, Colors.brown,
+                  Colors.grey, Colors.black
+                ];
 
                 return ListView.builder(
+                  padding: const EdgeInsets.all(16),
                   itemCount: lista.length,
                   itemBuilder: (context, index) {
-                    final data = lista[index];
-                    Text("${data.key}: ${data.value}");
-                    return BarraVotacion(label: data.key, votos: data.value, total: totalvotos, color: Colores[index], onTap: ()=>updateVoto(docs[index].id));
+                    final entrada = lista[index];
+
+                    return BarraVotacion(
+                      label: entrada.key,
+                      votos: entrada.value,
+                      total: totalVotos,
+                      color: colores[index % colores.length],
+                      onTap: () => _updateVoto(doc.id, entrada.key),
+                    );
                   },
                 );
               },
@@ -60,12 +84,4 @@ class _VotacionesScreenState extends State<VotacionesScreen> {
       ),
     );
   }
-}
-
-
-void updateVoto(elementopulsado){
-  print(elementopulsado);
-  FirebaseFirestore.instance.collection("encuestas").doc(elementopulsado).update({
-    elementopulsado: FieldValue.increment(1),
-  });
 }
