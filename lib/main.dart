@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled/features/chat/Chat_screen.dart';
+import 'package:untitled/features/CrearEncuesta/CrearEncuesta_screen.dart';
+import 'package:untitled/features/menuEncuestas/MenuEncuestas_screen.dart';
 import 'package:untitled/features/votaciones/Votaciones_screen.dart';
 
 import 'firebase_options.dart';
@@ -32,7 +32,13 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: VotacionesScreen(),
+      debugShowCheckedModeBanner: false,
+      // home: MenuencuestasScreen(),
+      routes: {
+        '/':(context) => MenuencuestasScreen(),
+        '/votaciones':(context) => VotacionesScreen(),
+        '/createEncuestas':(context) => CrearencuestaScreen(),
+      },
     );
   }
 }

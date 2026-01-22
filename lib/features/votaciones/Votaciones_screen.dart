@@ -20,6 +20,9 @@ class _VotacionesScreenState extends State<VotacionesScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    var documentos = ModalRoute.of(context)!.settings.arguments as String;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Votaciones"),
@@ -29,9 +32,10 @@ class _VotacionesScreenState extends State<VotacionesScreen> {
       body: Column(
         children: [
           Expanded(
-            child: StreamBuilder<QuerySnapshot>(
+            child: StreamBuilder<DocumentSnapshot>(
               stream: FirebaseFirestore.instance
                   .collection("encuestas")
+                  .doc(documentos)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
@@ -42,17 +46,12 @@ class _VotacionesScreenState extends State<VotacionesScreen> {
                   return const Center(child: CircularProgressIndicator());
                 }
 
-                final docs = snapshot.data!.docs;
-
-                if (docs.isEmpty) {
-                  return const Center(child: Text("No hay encuestas disponibles"));
-                }
-                final doc = docs[0];
+                final doc = snapshot.data!;
                 final dataMap = doc.data() as Map<String, dynamic>;
                 final List<MapEntry<String, dynamic>> lista = dataMap.entries.toList();
 
                 // Ordenar la lista
-                lista.sort((a, b) => b.value.compareTo(a.value));
+                lista.sort((a, b) => b.key.compareTo(a.key));
 
                 final totalVotos = lista.fold<int>(0, (sum, item) => sum + (item.value as int));
 
