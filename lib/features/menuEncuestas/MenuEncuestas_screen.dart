@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -60,6 +58,11 @@ class _MenuencuestasScreenState extends State<MenuencuestasScreen> {
               );
             },
           ),
+        ),
+
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: Icon(Icons.update),
         ),
       ),
     );
