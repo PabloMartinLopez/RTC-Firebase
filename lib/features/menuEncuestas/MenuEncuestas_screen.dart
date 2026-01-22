@@ -59,11 +59,6 @@ class _MenuencuestasScreenState extends State<MenuencuestasScreen> {
             },
           ),
         ),
-
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: Icon(Icons.update),
-        ),
       ),
     );
   }
